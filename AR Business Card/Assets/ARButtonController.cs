@@ -23,6 +23,10 @@ public class ARButtonController : MonoBehaviour, IVirtualButtonEventHandler
             ARButton[i].RegisterEventHandler(this);
 
         }
+
+        ContactButton.SetActive(false);
+        InformationObject.SetActive(false);
+
         ContactAnim = ContactButton.GetComponent<Animator>();
         InformationAnim = InformationObject.GetComponent<Animator>();
     }
@@ -32,12 +36,13 @@ public class ARButtonController : MonoBehaviour, IVirtualButtonEventHandler
     {
         if (vb.VirtualButtonName == "Introduction")
         {
+            InformationObject.SetActive(true);
             InformationAnim.SetTrigger("OPEN INFO");
 
         }
         else if (vb.VirtualButtonName == "Contact")
         {
-
+            ContactButton.SetActive(true);
             ContactAnim.SetTrigger("OPEN");
 
         }
