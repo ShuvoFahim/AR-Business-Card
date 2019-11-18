@@ -39,17 +39,34 @@ public class ARButtonController : MonoBehaviour, IVirtualButtonEventHandler
             InformationObject.SetActive(true);
             InformationAnim.SetTrigger("OPEN INFO");
 
+            ContactAnim.SetTrigger("CLOSE");
+            StartCoroutine(MakeFalseObject(ContactButton));
+
         }
         else if (vb.VirtualButtonName == "Contact")
         {
             ContactButton.SetActive(true);
             ContactAnim.SetTrigger("OPEN");
 
+            InformationAnim.SetTrigger("CLOSE INFO");
+            StartCoroutine(MakeFalseObject(InformationObject));
         }
         else if (vb.VirtualButtonName == "Video") {
 
         }
     }
+
+
+    IEnumerator MakeFalseObject(GameObject x)
+    {
+        
+        yield return new WaitForSeconds(2.5f);
+
+        x.SetActive(false);
+       
+
+    }
+
 
     public void OnButtonReleased(VirtualButtonBehaviour vb)
     {
