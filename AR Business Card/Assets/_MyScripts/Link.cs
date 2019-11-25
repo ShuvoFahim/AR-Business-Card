@@ -33,6 +33,11 @@ public class Link : MonoBehaviour
 
     }
 
+    public void OpenNSUweb() {
+
+        Application.OpenURL("http://www.northsouth.edu/");
+
+    }
 
 
     public void SendEmail()

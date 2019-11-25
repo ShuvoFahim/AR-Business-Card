@@ -70,11 +70,15 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
             newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
             OnTrackingFound();
+
+            BGAudio.Play();
         }
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NO_POSE)
         {
             OnTrackingLost();
+
+            BGAudio.Stop();
         }
         else
         {
@@ -109,8 +113,9 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
             foreach (var component in canvasComponents)
                 component.enabled = true;
 
-            BGAudio.Play();
+            
         }
+
     }
 
 
@@ -133,7 +138,11 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
             // Disable canvas':
             foreach (var component in canvasComponents)
                 component.enabled = false;
+
+            
         }
+
+    
     }
 
     #endregion // PROTECTED_METHODS
