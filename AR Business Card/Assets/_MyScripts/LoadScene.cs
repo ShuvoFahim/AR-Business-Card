@@ -15,4 +15,9 @@ public class LoadScene : MonoBehaviour {
     {
         SceneManager.LoadScene("Preview");
     }
+
+    public void Quit() {
+        Application.Quit();
+    }
+    
 }

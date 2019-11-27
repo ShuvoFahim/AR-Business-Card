@@ -12,6 +12,17 @@ public class ARButtonController : MonoBehaviour, IVirtualButtonEventHandler
     public GameObject BGAudio;
     public GameObject BGcontact;
 
+    public GameObject AciveARbuttonText;
+    public GameObject DisableARbuttonText; 
+
+    public GameObject infoVRButton;
+    public GameObject ConVRButton;
+    public GameObject VidVRButton;
+    
+    public GameObject CloseInfo;
+    public GameObject closecon;
+    public GameObject closevid;
+
     public GameObject BioAudio;
 
     public GameObject NSULogo;
@@ -29,7 +40,7 @@ public class ARButtonController : MonoBehaviour, IVirtualButtonEventHandler
         for (int i = 0; i < ARButton.Length; i++) {
 
             ARButton[i].RegisterEventHandler(this);
-
+            
         }
 
         ContactButton.SetActive(false);
@@ -38,8 +49,16 @@ public class ARButtonController : MonoBehaviour, IVirtualButtonEventHandler
         BioAudio.SetActive(false);
         BGcontact.SetActive(false);
 
+        DisableARbuttonText.SetActive(false);
 
-        BGAudioSource = BGAudio.GetComponent<AudioSource>();
+        
+        closecon.SetActive(false);
+        closevid.SetActive(false);
+        CloseInfo.SetActive(false);
+
+        AciveARbuttonText.SetActive(true);
+
+    BGAudioSource = BGAudio.GetComponent<AudioSource>();
         ContactAnim = ContactButton.GetComponent<Animator>();
         InformationAnim = InformationObject.GetComponent<Animator>();
     }
@@ -47,56 +66,150 @@ public class ARButtonController : MonoBehaviour, IVirtualButtonEventHandler
 
     public void OnButtonPressed(VirtualButtonBehaviour vb)
     {
+
         if (vb.VirtualButtonName == "Introduction")
         {
             InformationObject.SetActive(true);
             InformationAnim.SetTrigger("OPEN INFO");
 
-            ContactAnim.SetTrigger("CLOSE");
-            StartCoroutine(MakeFalseObject(ContactButton));
+            
 
             VideoPlayObject.SetActive(false);
 
             NSULogo.SetActive(true);
 
-            BGAudio.SetActive(false);
+            BGAudioSource.Pause();
 
             BGcontact.SetActive(false);
             StartCoroutine(DelayBiosoound());
+
+            infoVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+            ConVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+            VidVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+
+            CloseInfo.SetActive(true);
+
+            DisableARbuttonText.SetActive(true);
+            AciveARbuttonText.SetActive(false);
         }
-        else if (vb.VirtualButtonName == "Contact")
+
+
+
+        if (vb.VirtualButtonName == "Contact")
         {
             ContactButton.SetActive(true);
             ContactAnim.SetTrigger("OPEN");
 
-            InformationAnim.SetTrigger("CLOSE INFO");
-            StartCoroutine(MakeFalseObject(InformationObject));
+           
 
             VideoPlayObject.SetActive(false);
 
             NSULogo.SetActive(true);
 
-            BGAudio.SetActive(false);
+            BGAudioSource.Pause();
             BioAudio.SetActive(false);
 
             StartCoroutine(Delaycontactsound());
+
+
+            infoVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+            ConVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+            VidVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+
+            closecon.SetActive(true);
+
+            DisableARbuttonText.SetActive(true);
+            AciveARbuttonText.SetActive(false);
         }
-        else if (vb.VirtualButtonName == "Video") {
+
+
+
+        if (vb.VirtualButtonName == "Video") {
 
             VideoPlayObject.SetActive(true);
 
-            ContactAnim.SetTrigger("CLOSE");
-            StartCoroutine(MakeFalseObject(ContactButton));
-
-            InformationAnim.SetTrigger("CLOSE INFO");
-            StartCoroutine(MakeFalseObject(InformationObject));
 
             NSULogo.SetActive(false);
-            BGAudio.SetActive(false);
+            BGAudioSource.Pause();
             BioAudio.SetActive(false);
             BGcontact.SetActive(false);
+
+
+            infoVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+            ConVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+            VidVRButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+
+            closevid.SetActive(true);
+
+            DisableARbuttonText.SetActive(true);
+            AciveARbuttonText.SetActive(false);
         }
     }
+
+    public void resetinfo() {
+
+        InformationAnim.SetTrigger("CLOSE INFO");
+        StartCoroutine(MakeFalseObject(InformationObject));
+
+        BioAudio.SetActive(false);
+        BGAudioSource.Play();
+
+
+        infoVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+        ConVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+        VidVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+
+        CloseInfo.SetActive(false);
+
+        AciveARbuttonText.SetActive(true);
+        DisableARbuttonText.SetActive(false);
+
+    }
+
+    public void resetcontact()
+    {
+
+        ContactAnim.SetTrigger("CLOSE");
+        StartCoroutine(MakeFalseObject(ContactButton));
+
+        
+
+        infoVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+        ConVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+        VidVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+
+        closecon.SetActive(false);
+
+        BGAudioSource.Play();
+
+        BGcontact.SetActive(false);
+
+        DisableARbuttonText.SetActive(false);
+        AciveARbuttonText.SetActive(true);
+    }
+
+    public void resetvideo()
+    {
+
+        VideoPlayObject.SetActive(false);
+
+        infoVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+        ConVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+        VidVRButton.GetComponent<VirtualButtonBehaviour>().enabled = true;
+
+        closevid.SetActive(false);
+
+        BGAudioSource.Play();
+
+        NSULogo.SetActive(true);
+
+        DisableARbuttonText.SetActive(false);
+        AciveARbuttonText.SetActive(true);
+
+    }
+
+
+
 
 
     IEnumerator MakeFalseObject(GameObject x)
